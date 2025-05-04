@@ -3134,6 +3134,55 @@ This needs more work, to handle headings with lots of spaces in them."
    (autoload-if-found '(keycast-log-mode) "keycast" nil t)
    )
 
+; deferred (cyclic)
+ (eval-when-compile
+   (el-clone :repo "kiwanami/emacs-deferred"))
+ (with-delayed-execution
+   (message "Install defrred...")
+   (add-to-list 'load-path (locate-user-emacs-file "el-clone/emacs-deferred"))
+   (autoload-if-found '(deferred:process deferred:$) "deferred" nil t)
+
+;; linuxの空きメモリ使用量をチェックして，下限下回っていたらalert
+;; デフォルト設定では閾値は500MB未満となっているかを，60秒ごとにチェック
+;; 変えたければsuggest-restart:threshold，suggest-restart:intervalを変える
+;; (suggest-restart t) で開始
+
+(defvar suggest-restart:threshold 300000)
+(defvar suggest-restart:interval 6)
+(defvar suggest-restart:timer nil)
+
+
+(defun suggest-restart:observe ()
+  (deferred:$
+;    (deferred:process "ps" "-p" (format "%d" (emacs-pid)) "-o" "rss")
+
+   (deferred:process "awk" "{if(NR==2){print $2}}" "/proc/meminfo")
+    (deferred:nextc it
+      (lambda (res)
+        ;(message "%s" res)
+        (when (< (string-to-number res) suggest-restart:threshold)
+          (message (concat res "空きメモリが少なくなっています"))
+           )))))
+
+(defun suggest-restart (enable)
+  (interactive)
+  (if (and enable suggest-restart:timer)
+      (suggest-restart nil))
+  (if enable
+      (setq suggest-restart:timer (run-with-timer
+                                   suggest-restart:interval
+                                   suggest-restart:interval
+                                   'suggest-restart:observe))
+    (when suggest-restart:timer
+      (cancel-timer suggest-restart:timer)
+      (setq suggest-restart:timer nil))))
+
+(suggest-restart t)
+
+   )
+
+
+
 ; ---------------------------------------------
 (global-set-key (kbd "C-/") 'lines-comment)
 (global-set-key (kbd "C-x f") 'consult-fd)

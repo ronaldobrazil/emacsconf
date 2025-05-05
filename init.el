@@ -3124,6 +3124,19 @@ This needs more work, to handle headings with lots of spaces in them."
    )
 
 
+; emacs-jp/dmacro
+(eval-when-compile
+   (el-clone :repo "emacs-jp/dmacro"))
+ (with-delayed-execution
+   (message "Install emacs-jp/dmacro...")
+   (add-to-list 'load-path (locate-user-emacs-file "el-clone/dmacro"))
+   (autoload-if-found '(global-dmacro-mode) "dmacro" nil t)
+   (autoload-if-found '(dmacro-mode) "dmacro" nil t)
+   (global-dmacro-mode)
+   (setq dmacro-key (kbd "C-S-e"))
+   )
+
+
 ; keycast Show current command
  (eval-when-compile
    (el-clone :repo "tarsius/keycast"))
@@ -3133,6 +3146,24 @@ This needs more work, to handle headings with lots of spaces in them."
    (autoload-if-found '(keycast-mode-line-mode) "keycast" nil t)
    (autoload-if-found '(keycast-log-mode) "keycast" nil t)
    )
+
+
+; key-expression Show key input
+ (eval-when-compile
+   (el-clone :repo "chuntaro/emacs-keypression"))
+ (with-delayed-execution
+   (message "Install emacs-keypression...")
+   (add-to-list 'load-path (locate-user-emacs-file "el-clone/emacs-keypression"))
+   (autoload-if-found '(keypression-mode) "keypression" nil t)
+   (setq keypression-use-child-frame nil
+      keypression-fade-out-delay 1.0
+      keypression-frame-justify 'keypression-right-justified
+      keypression-cast-command-name t
+      keypression-cast-command-name-format "%s  %s"
+      keypression-combine-same-keystrokes t
+      keypression-font-face-attribute '(:width normal :height 200 :weight bold))
+   )
+
 
 ; deferred (cyclic)
  (eval-when-compile
@@ -3147,7 +3178,7 @@ This needs more work, to handle headings with lots of spaces in them."
 ;; 変えたければsuggest-restart:threshold，suggest-restart:intervalを変える
 ;; (suggest-restart t) で開始
 
-(defvar suggest-restart:threshold 300000)
+(defvar suggest-restart:threshold 100000)
 (defvar suggest-restart:interval 6)
 (defvar suggest-restart:timer nil)
 

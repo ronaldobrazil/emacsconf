@@ -2394,7 +2394,7 @@ properly disable mozc-mode."
   (global-set-key (kbd "C-c a") #'org-agenda)
 
   (with-eval-after-load 'org-agenda
-    (setq org-agenda-span 'day)
+    (setq org-agenda-span 'week)
     (setq org-agenda-start-on-weekday 1)
     (setq org-agenda-todo-ignore-with-date t)))
 
@@ -3358,18 +3358,18 @@ This needs more work, to handle headings with lots of spaces in them."
     (interactive)
     (setq my/hidden-minor-modes
           '(goggles-mode
-            
-        eldoc-mode
-        golden-ratio-mode
-        abbrev-mode
-        highlight-symbol-mode
-        which-key-mode
-        whitespace-mode
-        org-indent-mode
-        yas-global-mode
-        yas-minor-mode
-        lisp-interaction-mode
-        ))
+            dmacro-mode
+            eldoc-mode
+            golden-ratio-mode
+            abbrev-mode
+            highlight-symbol-mode
+            which-key-mode
+            whitespace-mode
+            org-indent-mode
+            yas-global-mode
+            yas-minor-mode
+            lisp-interaction-mode
+            ))
     (mapc (lambda (mode)
         (setq minor-mode-alist
               (cons (list mode "") (assq-delete-all mode minor-mode-alist))))

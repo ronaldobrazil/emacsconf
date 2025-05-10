@@ -3212,6 +3212,17 @@ This needs more work, to handle headings with lots of spaces in them."
 
    )
 
+; hagleitn/speed-type
+(eval-when-compile
+   (el-clone :repo "hagleitn/speed-type"))
+ (with-delayed-execution
+   (message "Install speed-type...")
+   (add-to-list 'load-path (locate-user-emacs-file "el-clone/speed-type"))
+   (autoload-if-found '(speed-type-text) "speed-type" nil t)
+   ;(speed-type-text)
+   )
+
+
 
 
 ; ---------------------------------------------

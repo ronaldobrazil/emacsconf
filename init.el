@@ -164,7 +164,7 @@
   (set-frame-position (selected-frame) 915 28))
 
 ; ~/.emacs.d/lisp 直下を load-path に追加
-(let ((default-directory (locate-user-emacs-file "./lisp")))
+(let ((default-directory (locate-user-emacs-file "lisp")))
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -786,6 +786,35 @@ properly disable mozc-mode."
             ("WAIT" . "#7cb8bb")
             ("DONE" . "#afd8af")
             ("FIXME" . "#cc9393")))))
+
+
+;.swiper
+(eval-when-compile
+  (el-clone :repo "abo-abo/swiper"))
+
+(with-delayed-execution
+  (message "Install swiper...")
+  (add-to-list 'load-path (locate-user-emacs-file "el-clone/swiper"))
+
+  (autoload-if-found '(swiper-isearch) "swiper" nil t)
+  (autoload-if-found '(swiper-migemo) "swiper" nil t)
+  (autoload-if-found '(swiper) "swiper" nil t)
+)
+
+(defun swiper-migemo()
+(interactive)
+(require 'ivy-with-migemo)
+(setq ivy-with-migemo-enable-command ; migemo対応の対象となるコマンドを設定
+      '(swiper
+        swiper-isearch
+        counsel-recentf
+        counsel-rg))
+(setq migemo-options '("--quiet" "--nonewline" "--emacs"))
+(migemo-kill) ; migemoシャットダウン
+(migemo-init) ; migemo再起動
+(global-ivy-with-migemo-mode 1) ; 有効化
+(swiper-isearch)
+)
 
 
 ;.6. Completion
@@ -3223,8 +3252,6 @@ This needs more work, to handle headings with lots of spaces in them."
    )
 
 
-
-
 ; ---------------------------------------------
 (global-set-key (kbd "C-/") 'lines-comment)
 (global-set-key (kbd "C-x f") 'consult-fd)
@@ -3255,8 +3282,8 @@ This needs more work, to handle headings with lots of spaces in them."
 (define-key global-map (kbd "C-c r") 'vr/replace)
 (define-key global-map (kbd "C-c q") 'vr/query-replace)
 
-
-(global-set-key (kbd "C-s") #'consult-line) ;; バッファ検索
+(global-set-key (kbd "C-s") #'swiper-migemo) ;; バッファ検索
+;(global-set-key (kbd "C-s") #'consult-line) ;; バッファ検索
 (global-set-key (kbd "C-S-s") #'consult-line-multi) ;; 複数バッファ串刺し検索
 (global-set-key (kbd "C-M-s") #'consult-line-migemo) ;; migemo search
 
@@ -3501,7 +3528,7 @@ This needs more work, to handle headings with lots of spaces in them."
     (setq completion-category-defaults nil)
     ;(setq completion-category-overrides nil)
     (setq completion-category-overrides '((file (styles basic partial-completion))))
-     (setq completion-styles '(basic partial-completion hotfuzz orderless))
+    (setq completion-styles '(basic partial-completion hotfuzz orderless))
      
     ;(setq completion-styles '(hotfuzz))
 )
@@ -3514,7 +3541,7 @@ This needs more work, to handle headings with lots of spaces in them."
 (add-hook 'emacs-lisp-mode-hook (lambda () (electric-indent-local-mode -1)))
 (add-hook 'emacs-lisp-mode-hook (lambda () (setq corfu-auto nil)))
 
-
+      
 ; long file adapt. 
 (global-so-long-mode)
 

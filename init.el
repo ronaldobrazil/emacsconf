@@ -3282,11 +3282,11 @@ This needs more work, to handle headings with lots of spaces in them."
 (define-key global-map (kbd "C-c r") 'vr/replace)
 (define-key global-map (kbd "C-c q") 'vr/query-replace)
 
-(global-set-key (kbd "C-s") #'swiper-migemo) ;; バッファ検索
+(global-set-key (kbd "C-s") #'swiper-isearch) ;; バッファ検索
 ;(global-set-key (kbd "C-s") #'consult-line) ;; バッファ検索
 (global-set-key (kbd "C-S-s") #'consult-line-multi) ;; 複数バッファ串刺し検索
-(global-set-key (kbd "C-M-s") #'consult-line-migemo) ;; migemo search
-
+;(global-set-key (kbd "C-M-s") #'consult-line-migemo) ;; migemo search
+(global-set-key (kbd "C-M-s") #'swiper-migemo) ;; migemo search
 (global-set-key (kbd "C-x C-p") #'switch-to-prev-buffer)
 (global-set-key (kbd "C-x C-n") #'switch-to-next-buffer)
 

@@ -3251,6 +3251,20 @@ This needs more work, to handle headings with lots of spaces in them."
    ;(speed-type-text)
    )
 
+
+; mode-line-timer 
+; https://github.com/syohex/emacs-mode-line-timer
+(eval-when-compile
+   (el-clone :repo "syohex/emacs-mode-line-timer"))
+ (with-delayed-execution
+   (message "Install mode-line-timer...")
+   (add-to-list 'load-path (locate-user-emacs-file "el-clone/emacs-mode-line-timer"))
+   (autoload-if-found '(mode-line-timer-start) "mode-line-timer" nil t)
+   
+   )
+
+
+; sacha chua
 (defun prot/keyboard-quit-dwim ()
   "Do-What-I-Mean behaviour for a general `keyboard-quit'.
 

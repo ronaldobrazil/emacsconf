@@ -1413,12 +1413,11 @@ properly disable mozc-mode."
   (message "Install embark...")
   (add-to-list 'load-path (locate-user-emacs-file "el-clone/embark"))
 
-
 (autoload-if-found '(embark-act embark-dwim embark-prefix-help-command) "embark" nil t)
-
-(keymap-global-set "C-\?" #'embark-act)
-(keymap-global-set "C-_" #'embark-dwim)
-(keymap-global-set "C-h B" #'embark-prefix-help-command)
+(autoload-if-found '(embark-act embark-dwim) "embark-consult" nil t)
+ 
+(keymap-global-set "C-M-." #'embark-dwim)
+(keymap-global-set "C-M-," #'embark-act)
 
 (with-eval-after-load 'embark
   ;; macros
@@ -1477,12 +1476,12 @@ properly disable mozc-mode."
   (define-key embark-general-map (kbd "T") #'ellama-translate)
 
   ;; copilot-chat
-  (define-key embark-general-map (kbd "E") #'copilot-chat-explain-defun)
-  (define-key embark-general-map (kbd "R") #'copilot-chat-review)
-  (define-key embark-general-map (kbd "D") #'copilot-chat-doc)
-  (define-key embark-general-map (kbd "F") #'copilot-chat-fix)
-  (define-key embark-general-map (kbd "O") #'copilot-chat-optimize)
-  (define-key embark-general-map (kbd "E") #'copilot-chat-explain-defun)
+  ;(define-key embark-general-map (kbd "E") #'copilot-chat-explain-defun)
+  ;(define-key embark-general-map (kbd "R") #'copilot-chat-review)
+  ;(define-key embark-general-map (kbd "D") #'copilot-chat-doc)
+  ;(define-key embark-general-map (kbd "F") #'copilot-chat-fix)
+  ;(define-key embark-general-map (kbd "O") #'copilot-chat-optimize)
+  ;(define-key embark-general-map (kbd "E") #'copilot-chat-explain-defun)
 
   ;; hooks
   (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)))
@@ -2948,13 +2947,14 @@ This needs more work, to handle headings with lots of spaces in them."
   (message "Install ggtags...")
   (add-to-list 'load-path (locate-user-emacs-file "el-clone/ggtags"))
   (autoload-if-found '(ggtags-mode) "ggtags" nil t)
-                                        
+    
   (add-hook 'c-mode-common-hook
           (lambda ()
             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'csharp-mode)
               (ggtags-mode 1))))
   ;(ggtags-mode 1)
   ;(add-hook 'prog-mode-hook 'ggtags-mode)
+  (global-set-key (kbd"M-r") 'ggtags-find-reference)                        
   )
 
 ; dump-jump
@@ -3252,7 +3252,7 @@ This needs more work, to handle headings with lots of spaces in them."
    )
 
 
-; mode-line-timer 
+; mode-line-timer
 ; https://github.com/syohex/emacs-mode-line-timer
 (eval-when-compile
    (el-clone :repo "syohex/emacs-mode-line-timer"))
@@ -3328,8 +3328,6 @@ The DWIM behaviour of this command is as follows:
 (global-set-key (kbd "C-M-s") #'swiper-migemo) ;; migemo search
 (global-set-key (kbd "C-x C-p") #'switch-to-prev-buffer)
 (global-set-key (kbd "C-x C-n") #'switch-to-next-buffer)
-
-
 
 ;; カーソル下のシンボルを拾ってconsult-line発動
 (defun consult-line-symbol-at-point (&optional at-point)

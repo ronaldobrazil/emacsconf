@@ -3291,6 +3291,18 @@ The DWIM behaviour of this command is as follows:
 
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
 
+
+; pacman
+(eval-when-compile
+   (el-clone :repo "emacsmirror/pacmacs"))
+ (with-delayed-execution
+   (message "Install pacmacs...")
+   (add-to-list 'load-path (locate-user-emacs-file "el-clone/pacmacs"))
+   (autoload-if-found '(pacmacs-start) "pacmacs" nil t)
+   )
+
+
+
 ; ---------------------------------------------
 (global-set-key (kbd "C-/") 'lines-comment)
 (global-set-key (kbd "C-x f") 'consult-fd)
@@ -3309,6 +3321,7 @@ The DWIM behaviour of this command is as follows:
 (global-set-key (kbd "<S-f7>") 'other-window)
 (global-set-key (kbd "A-y") 'browse-kill-ring )
 (global-set-key (kbd "<S-f5>") 'fzf)
+
 ; adust U F17
 ;(global-set-key (kbd "<XF86Launch8>") 'mode-line-other-buffer)
 (global-set-key (kbd "<XF86Launch8>") 'other-window)
@@ -3571,8 +3584,9 @@ The DWIM behaviour of this command is as follows:
 )
 
 (add-hook 'org-mode-hook   'my:reconfcomp t nil)
-(add-hook 'prog-mode-hook  'my:reconfcomp t nil)
-(add-hook 'text-mode-hook  'my:reconfcomp t nil)
+;;; lsp-bridge 使う場合コメントアウト
+;(add-hook 'prog-mode-hook  'my:reconfcomp t nil)
+;(add-hook 'text-mode-hook  'my:reconfcomp t nil)
 
 ; elisp indent no thanks.
 (add-hook 'emacs-lisp-mode-hook (lambda () (electric-indent-local-mode -1)))

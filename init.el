@@ -113,7 +113,7 @@
           (lambda ()
             (setq my/delayed-priority-high-configuration-timer
                   (run-with-timer
-                   0.1 0.001
+                   0.05 0.001
                    (lambda ()
                      (if my/delayed-priority-high-configurations
                          (let ((inhibit-message t))
@@ -122,7 +122,7 @@
                          (cancel-timer my/delayed-priority-high-configuration-timer))))))
             (setq my/delayed-priority-low-configuration-timer
                   (run-with-timer
-                   0.3 0.001
+                   0.1 0.001
                    (lambda ()
                      (if my/delayed-priority-low-configurations
                          (let ((inhibit-message t))
@@ -3321,6 +3321,9 @@ The DWIM behaviour of this command is as follows:
 (global-set-key (kbd "<S-f7>") 'other-window)
 (global-set-key (kbd "A-y") 'browse-kill-ring )
 (global-set-key (kbd "<S-f5>") 'fzf)
+
+;(global-set-key (kbd "<M-S-,>") 'beginning-of-buffer)
+;(global-set-key (kbd "<M-S-.>") 'end-of-buffer)
 
 ; adust U F17
 ;(global-set-key (kbd "<XF86Launch8>") 'mode-line-other-buffer)

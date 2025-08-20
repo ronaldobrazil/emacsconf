@@ -160,7 +160,8 @@
 
 ; ウインドウポジション、サイズ(windows position, size)
 (when (eq system-type 'gnu/linux)
-  (set-frame-size (selected-frame) 93 56)
+  ;(set-frame-size (selected-frame) 93 56)
+(set-frame-size (selected-frame) 106 66)
   (set-frame-position (selected-frame) 915 28))
 
 ; ~/.emacs.d/lisp 直下を load-path に追加
